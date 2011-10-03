@@ -1,0 +1,5 @@
+%% name = Redeye::Grammar
+
+number = < /^\d*\.?\d+(?:e[+-]?\d+)?/ > { text }
+
+root = number:num !. { num }
