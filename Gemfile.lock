@@ -1,4 +1,5 @@
 GEM
+  remote: http://rubygems.org/
   specs:
     kpeg (0.8.4)
 
