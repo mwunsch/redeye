@@ -1,5 +1,27 @@
 %% name = Redeye::Grammar
 
-number = < /^\d*\.?\d+(?:e[+-]?\d+)?/ > { text }
+      root = - expression:exp? - !. { exp }
 
-root = number:num !. { num }
+expression = assignment
+           | value
+
+assignment = < identifier:left - "=" - value:right > { "[ASSIGNMENT <#{left} = #{right}>]" }
+
+     value = identifier
+           | literal
+
+   literal = number
+           | string
+
+identifier = < IDENTIFIER > { "[IDENTIFIER #{text}]" }
+
+    string = < STRING > { "[STRING '#{text}']" }
+
+    number = < NUMBER > { "[NUMBER #{text}]" }
+
+         - = WHITESPACE*
+
+    STRING = /'[^\\']*(?:\\.[^\\']*)*'/
+    NUMBER = /\d*\.?\d+(?:e[+-]?\d+)?/
+IDENTIFIER = /([a-zA-Z_][a-zA-Z0-9_]*)([^\n\S]*:(?!:))?/
+WHITESPACE = /[^\n\S]/
