@@ -1,27 +1,49 @@
 %% name = Redeye::Grammar
 
-      root = - expression:exp? - !. { exp }
+%% {
+  def block_node(nodes)
+    Redeye::Nodes::Block.new(nodes)
+  end
+
+  def literal_node(value)
+    Redeye::Nodes::Literal.new(value)
+  end
+
+  def value_node(value)
+    Redeye::Nodes::Value.new(value)
+  end
+
+  def assign_node(variable, value)
+    Redeye::Nodes::Assign.new(variable, value)
+  end
+}
+
+      root = - expression:exp? - !. ~block_node(exp)
 
 expression = assignment
            | value
 
-assignment = < identifier:left - "=" - value:right > { "[ASSIGNMENT <#{left} = #{right}>]" }
+assignment = assignable:var - "=" - value:val ~assign_node(var, val) 
 
-     value = identifier
-           | literal
+     value = assignable
+           | literal:val ~value_node(val)
+
+assignable = identifier:val ~value_node(val)
 
    literal = number
            | string
 
-identifier = < IDENTIFIER > { "[IDENTIFIER #{text}]" }
+identifier = < IDENTIFIER > ~literal_node(text)
 
-    string = < STRING > { "[STRING '#{text}']" }
+    string = < SIMPLSTRING > ~literal_node(text)
+           | < "\"" STRING "\"" > ~literal_node(text)
 
-    number = < NUMBER > { "[NUMBER #{text}]" }
+    number = < NUMBER > ~literal_node(text)
 
          - = WHITESPACE*
 
-    STRING = /'[^\\']*(?:\\.[^\\']*)*'/
+    STRING = /[^\\"]*(?:\\.[^\\"]*)*/
+    SIMPLSTRING = /'[^\\']*(?:\\.[^\\']*)*'/
     NUMBER = /\d*\.?\d+(?:e[+-]?\d+)?/
 IDENTIFIER = /([a-zA-Z_][a-zA-Z0-9_]*)([^\n\S]*:(?!:))?/
 WHITESPACE = /[^\n\S]/
