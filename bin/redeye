@@ -1,0 +1,17 @@
+#! /usr/bin/env rbx
+
+$:.unshift File.expand_path('../../lib', __FILE__)
+
+require 'redeye'
+
+file = ARGV.last
+
+abort "File not found" unless File.exists? file
+
+begin
+  puts Redeye.run File.read(file)
+  exit
+rescue Redeye::Grammar::ParseError
+  abort $!
+end
+
