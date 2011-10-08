@@ -8,7 +8,7 @@ I built it because I like CoffeeScript, and I want to learn more about language 
 2. Ruby interoperability with CoffeeScript
 3. An ECMAScript 5 implementation on Rubinius
 
-Right now, I am forgoing a Lexer phase so I can learn more about why Jeremy felt one was necessary. Currently, Redeye only produces an AST, but it is my hope to get the AST as close as possible to CoffeeScript's before moving on to the Lexer or diving deeper into Rubinius.
+Right now, I am forgoing a Lexer phase for educational purposes. Currently, Redeye only produces an AST, but it is my hope to get the AST as close as possible to CoffeeScript's before moving on to the Lexer or diving deeper into Rubinius.
 
 While developing this project, I discovered [Brian Ford](https://github.com/brixen)'s [poetics](https://github.com/brixen/poetics), which could turn out to be really awesome.
 
@@ -38,3 +38,6 @@ Alternatively there's
 
 This is a work in progress and totally experimental.
 
+## Copyright
+
+Redeye is Copyright (c) 2011 Mark Wunsch and is licensed under the MIT License. See the LICENSE file.
