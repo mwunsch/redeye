@@ -4,7 +4,7 @@ peg = "#{lib}/grammar.kpeg"
 grammar = "#{lib}/grammar.kpeg.rb"
 
 file grammar => peg do |t|
-  sh "kpeg -f #{peg} -o #{grammar}"
+  sh "kpeg -f -s #{peg} -o #{grammar}"
 end
 
 desc "Generate the parser from the grammar"
